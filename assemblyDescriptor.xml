@@ -1,0 +1,40 @@
+<assembly
+        xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2
+  	http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+
+    <id>dist</id>
+    <formats>
+        <format>zip</format>
+        <format>tar.gz</format>
+    </formats>
+    <fileSets>
+        <fileSet>
+            <directory>target/shopping-basket-${shopping.basket.version}/repo</directory>
+            <outputDirectory>repo</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>scripts</directory>
+            <outputDirectory>bin</outputDirectory>
+            <fileMode>744</fileMode>
+            <directoryMode>744</directoryMode>
+            <lineEnding>unix</lineEnding>
+        </fileSet>
+        <fileSet>
+            <directory>target/shopping-basket-${shopping.basket.version}/bin</directory>
+            <outputDirectory>bin</outputDirectory>
+            <fileMode>744</fileMode>
+            <directoryMode>744</directoryMode>
+        </fileSet>
+        <fileSet>
+            <directory>target</directory>
+            <outputDirectory>docs</outputDirectory>
+            <includes>
+                <include>*-javadoc.jar</include>
+            </includes>
+            <fileMode>744</fileMode>
+            <directoryMode>744</directoryMode>
+        </fileSet>
+    </fileSets>
+</assembly>

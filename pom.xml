@@ -1,0 +1,181 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.interview.cs</groupId>
+    <artifactId>shopping-basket</artifactId>
+    <version>${shopping.basket.version}</version>
+    <packaging>jar</packaging>
+
+    <name>shopping-basket</name>
+
+    <properties>
+        <shopping.basket.version>1.0</shopping.basket.version>
+        <org.springframework.version>4.2.5.RELEASE</org.springframework.version>
+        <org.springframework.boot.version>1.3.3.RELEASE</org.springframework.boot.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot</artifactId>
+            <version>${org.springframework.boot.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+            <version>${org.springframework.boot.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>${org.springframework.boot.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${org.springframework.boot.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>19.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+            <version>1.3</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>appassembler-maven-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>assemble</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <configurationDirectory>conf</configurationDirectory>
+                    <includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>
+                    <assembleDirectory>${project.build.directory}/shopping-basket-${shopping.basket.version}
+                    </assembleDirectory>
+                    <repositoryLayout>flat</repositoryLayout>
+                    <platforms>
+                        <platform>windows</platform>
+                        <platform>unix</platform>
+                    </platforms>
+                    <binFileExtensions>
+                        <unix>.sh</unix>
+                    </binFileExtensions>
+                    <programs>
+                        <program>
+                            <id>devShoppingBasket</id>
+                            <mainClass>com.interview.cs.app.ShoppingBasketApp</mainClass>
+                            <commandLineArguments>
+                                <commandLineArgument>
+                                    com.interview.cs.app.ShoppingBasketConfig
+                                </commandLineArgument>
+                            </commandLineArguments>
+                            <jvmSettings>
+                                <extraArguments>
+                                    <extraArgument>-Dshopping.basket.environment=dev</extraArgument>
+                                    <extraArgument>-Dshopping.basket.http.port=55511</extraArgument>
+                                    <extraArgument>-Duser.timezone=UTC</extraArgument>
+                                </extraArguments>
+                            </jvmSettings>
+                        </program>
+                        <program>
+                            <id>prodShoppingBasket</id>
+                            <mainClass>com.interview.cs.app.ShoppingBasketApp</mainClass>
+                            <commandLineArguments>
+                                <commandLineArgument>
+                                    com.interview.cs.app.ShoppingBasketConfig
+                                </commandLineArgument>
+                            </commandLineArguments>
+                            <jvmSettings>
+                                <extraArguments>
+                                    <extraArgument>-Dshopping.basket.environment=prod</extraArgument>
+                                    <extraArgument>-Dshopping.basket.http.port=55511</extraArgument>
+                                    <extraArgument>-Duser.timezone=UTC</extraArgument>
+                                </extraArguments>
+                            </jvmSettings>
+                        </program>
+                    </programs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <!-- mvn assembly:single -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <descriptor>assemblyDescriptor.xml</descriptor>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
