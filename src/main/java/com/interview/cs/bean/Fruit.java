@@ -57,9 +57,8 @@ public class Fruit implements ShoppingItem {
 
     @Override
     public int hashCode() {
-//        int result = name.hashCode();
-//        result = 31 * result + price.hashCode();
-//        return result;
-        return 1;
+        int result = name.hashCode();
+        result = 31 * result + price.hashCode();
+        return result;
     }
 }
